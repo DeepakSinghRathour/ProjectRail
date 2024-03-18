@@ -1,0 +1,27 @@
+package com.tcs.railway.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.ModelAndView;
+
+@Controller
+public class MainController {
+
+	@RequestMapping("/")
+	public String home() {
+		System.out.println("This is homepage");
+		return "home";
+	}
+	
+	@RequestMapping("/seatAvailability")
+	private ModelAndView getHelloClient() {
+		ModelAndView modelAndView = new ModelAndView("AvailableSeat");
+		String url1_seatAvailability = "https://travel.paytm.com/api/trains/v3/search?source=APR&destination=BPL&departureDate=20240321&client=web&show_empty=true";
+		RestTemplate resttemplate = new RestTemplate();
+		String result_seatAvailablility = resttemplate.getForObject(url1_seatAvailability, String.class);
+		System.out.println(result_seatAvailablility);
+		modelAndView.addObject("result_seatAvailablility", result_seatAvailablility);
+		return modelAndView;
+	}
+}
